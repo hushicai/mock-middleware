@@ -1,0 +1,21 @@
+{
+  "name": "mock-middleware",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./src/mock.js",
+  "scripts": {
+    "start": "node example/app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "colors": "^1.1.2",
+    "rd": "0.0.2"
+  },
+  "devDependencies": {
+    "connect": "^3.4.1",
+    "jquery": "^1.12.4",
+    "serve-index": "^1.8.0",
+    "serve-static": "^1.11.1"
+  }
+}
