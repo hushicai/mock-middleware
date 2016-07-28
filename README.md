@@ -22,5 +22,4 @@ gulp.task('server', function () {
 });
 ```
 
-Then, if you visit[http://localhost:3000/test](http://localhost:3000/test),mockMiddleware will read *test.json* from
-specificed mock directory, eg, *./mock/test.json*.
+Then, if you visit [http://localhost:3000/test](http://localhost:3000/test), **mockMiddleware** will read *test.json* from *./mock/test.json*.
