@@ -10,7 +10,6 @@ var util = require('util');
 var fs = require('fs');
 var path = require('path');
 var rd = require('rd');
-var colors = require('colors');
 var CWD = process.cwd();
 var checkMark = /\.json|\.js/;
 
