@@ -32,36 +32,46 @@ module.exports = function(mockDir) {
 
     // 查找本地是否存在这个文件
     fileNames.forEach(function(item) {
-        if (fullName === item.name) {
-            hasFile = true;
-            verb = item.verb;
-        }
+      if (fullName === item.name) {
+        hasFile = true;
+        verb = item.verb;
+      }
     });
 
     // 本地存在文件
     if (hasFile) {
-        var inlineData; // 写在check条件里的数据
-        var delay = 0;
-        var filePath = path.join(fullName + verb);
+      var inlineData; // 写在check条件里的数据
+      var delay = 0;
+      var filePath = path.join(fullName + verb);
 
-        console.log('[gulp-mock-server]', req.url + '=>' + filePath);
+      console.log('[mock-middleware]', req.url + '=>' + filePath);
 
-        delete require.cache[require.resolve(filePath)];
-        res.setHeader("Access-Control-Allow-Origin", "*");
-        if (urlObj.query&&urlObj.query.callback) {
-            res.setHeader('Content-type', 'application/javascript;charset=utf-8');
-            setTimeout(function() {
-                res.end(
-                  urlObj.query.callback + '(' + JSON.stringify(inlineData || require(filePath)) + ')'
-                );
-            }, delay);
-        } else {
-            res.setHeader('Content-Type', 'application/json;charset=utf-8');
-            setTimeout(function() {
-                res.end(JSON.stringify(inlineData || require(filePath)));
-            }, delay);
-        }
-        return;
+      delete require.cache[require.resolve(filePath)];
+      res.setHeader("Access-Control-Allow-Origin", "*");
+
+      var data;
+
+      try {
+        data = inlineData || require(filePath);
+      } catch (ex) {
+        console.log('[mock-middleware]',ex);
+        data = {};
+      }
+
+      if (urlObj.query && urlObj.query.callback) {
+        res.setHeader('Content-type', 'application/javascript;charset=utf-8');
+        setTimeout(function() {
+          res.end(
+            urlObj.query.callback + '(' + JSON.stringify(data) + ')'
+          );
+        }, delay);
+      } else {
+        res.setHeader('Content-Type', 'application/json;charset=utf-8');
+        setTimeout(function() {
+          res.end(JSON.stringify(data));
+        }, delay);
+      }
+      return;
     }
 
     next();
